@@ -99,23 +99,32 @@ for x, n, y in tqdm(tc):
 			good = False
 			g = True
 			break
-		if sol not in y:
-			mat = convertTo2D(sol, h, w)
-			rot = rotate(rotate(mat))
-			flipped = flip(mat)
-			frot = rotate(rotate(flipped))
-			if (c1(rot) not in y) and (c1(flipped) not in y) and (c1(frot) not in y):
-				print('[ERROR] Wrong solution')
-				print('Your program printed a solution that is wrong')
-				print('Solution:', ' '.join(sol))
-				print('This might be an issue with my program - if you are confident your answer is right let me know')
-				print('Common issues may include - printing column by column instead of row by row')
-				print('Test case:')
-				print(x)
-				prompt()
-				good = False
-				g = True
-				break
+		mat = convertTo2D(sol, h, w)
+		rot = rotate(rotate(mat))
+		flipped = flip(mat)
+		frot = rotate(rotate(flipped))
+		if (c1(rot) in s) or (c1(flipped) in s) or (c1(frot) in s):
+			print('[ERROR] Non-unique solution!')
+			print('Your program printed multiple orientations of the same solution')
+			print('Solution:', ' '.join(sol))
+			print('Test case:')
+			print(x)
+			prompt()
+			good = False
+			g = True
+			break
+		if (sol not in y) and (c1(rot) not in y) and (c1(flipped) not in y) and (c1(frot) not in y):
+			print('[ERROR] Wrong solution')
+			print('Your program printed a solution that is wrong')
+			print('Solution:', ' '.join(sol))
+			print('This might be an issue with my program - if you are confident your answer is right let me know')
+			print('Common issues may include - printing column by column instead of row by row')
+			print('Test case:')
+			print(x)
+			prompt()
+			good = False
+			g = True
+			break
 		s.add(sol)
 	if g:
 		continue
