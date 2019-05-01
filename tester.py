@@ -48,7 +48,8 @@ tc = pickle.load(open(args['testcases'], 'rb'))
 
 print('[INFO] will test', len(tc), 'test cases')
 totalTime = 0
-for x, n, y in tqdm(tc):
+for x, n, yo in tqdm(tc):
+	y = {tuple(chr(int(j)+65) for j in i) for i in yo}
 	h, w = (int(i) for i in x.split('\n')[-1].split())
 	p = subprocess.Popen([args['program']], stdout=subprocess.PIPE, stdin=subprocess.PIPE, encoding='utf8')
 	start = time.time()
@@ -88,11 +89,11 @@ for x, n, y in tqdm(tc):
 	s = set()
 	g = False
 	for i in range(n):
-		sol = tuple(output.popleft().split())
+		sol = tuple(output.popleft().rstrip())
 		if sol in s:
 			print('[ERROR] Duplicate solution')
 			print('Your program printed the same solution more than once')
-			print('Solution:', ' '.join(sol))
+			print('Solution:', ''.join(sol))
 			print('Test case:')
 			print(x)
 			prompt()
@@ -106,7 +107,7 @@ for x, n, y in tqdm(tc):
 		if (c1(rot) in s) or (c1(flipped) in s) or (c1(frot) in s):
 			print('[ERROR] Non-unique solution!')
 			print('Your program printed multiple orientations of the same solution')
-			print('Solution:', ' '.join(sol))
+			print('Solution:', ''.join(sol))
 			print('Test case:')
 			print(x)
 			prompt()
@@ -116,7 +117,7 @@ for x, n, y in tqdm(tc):
 		if (sol not in y) and (c1(rot) not in y) and (c1(flipped) not in y) and (c1(frot) not in y):
 			print('[ERROR] Wrong solution')
 			print('Your program printed a solution that is wrong')
-			print('Solution:', ' '.join(sol))
+			print('Solution:', ''.join(sol))
 			print('This might be an issue with my program - if you are confident your answer is right let me know')
 			print('Common issues may include - printing column by column instead of row by row')
 			print('Test case:')
